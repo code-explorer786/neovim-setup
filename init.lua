@@ -4,19 +4,19 @@ local plugin_loc = '~/.vimplugins' -- Plugin location
 
 -- [[ vimplug ]]{{{
 vim.call('plug#begin', plugin_loc)
-	-- directory tree
-		Plug 'preservim/nerdtree'
-	-- git
-		Plug 'tpope/vim-fugitive'
-		Plug 'christoomey/vim-conflicted'
-		Plug 'airblade/vim-gitgutter'
-	-- language server
-		Plug 'neovim/nvim-lspconfig'
+    -- directory tree
+        Plug 'preservim/nerdtree'
+    -- git
+        Plug 'tpope/vim-fugitive'
+        Plug 'christoomey/vim-conflicted'
+        Plug 'airblade/vim-gitgutter'
+    -- language server
+        Plug 'neovim/nvim-lspconfig'
     -- stuff
-		Plug 'cocopon/iceberg.vim'
-		Plug 'nvim-lualine/lualine.nvim'
-		Plug 'nvim-tree/nvim-web-devicons'
-	-- utilities
+        Plug 'cocopon/iceberg.vim'
+        Plug 'nvim-lualine/lualine.nvim'
+        Plug 'nvim-tree/nvim-web-devicons'
+    -- utilities
         Plug 'mhinz/vim-grepper'
     -- rust
         Plug 'rust-lang/rust.vim'
