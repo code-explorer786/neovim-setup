@@ -59,6 +59,9 @@ vim.keymap.set('n', '<A-r>', ':resize', { noremap = true, desc = "Force resize" 
 vim.keymap.set('n', '<A-;><A-[>', ':tabnew<CR>', { noremap = true; desc = "New tab" })
 vim.keymap.set('n', '<A-;><A-]>', ':tabclose<CR>', { noremap = true; desc = "Close tab" })
 vim.keymap.set('n', '<A-;><A-\\>', ':tabedit %<CR>', { noremap = true; desc = "New tab of this file/directory" })
+
+vim.keymap.set('n', '<A-\'><A-\'>', ':tabnext<CR>', { noremap = true; desc = "Next tab" })
+vim.keymap.set('n', '<A-;><A-;>', ':tabprev<CR>', { noremap = true; desc = "Previous tab" })
 -- }}}
 -- [[ no arrows, use hjkl ]]{{{
 local no_arrows_desc = "use hjkl"
