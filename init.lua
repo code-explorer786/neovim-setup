@@ -81,6 +81,15 @@ vim.keymap.set('v', '<up>', '<nop>', { noremap = true; desc = no_arrows_desc })
 vim.keymap.set('v', '<down>', '<nop>', { noremap = true; desc = no_arrows_desc })
 -- }}}
 -- }}}
+-- [[ commands ]]{{{
+vim.api.nvim_create_user_command("Config", [[
+:tabnew
+:exe 'tcd '.stdpath('config')
+:exe 'edit '.stdpath('config').'/init.lua'
+:vs .
+:vertical resize 30
+]] ,{ desc = 'Go to configuration setup' })
+-- }}}
 -- [[ modeline ]]{{{
 local modeline = "fdm=marker fdc=4"
 vim.keymap.set("n", "<A-;>ml", "Govim: " .. modeline .. "<Esc>", { desc = "Append the modeline (changes often!)" })
