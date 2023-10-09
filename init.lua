@@ -23,16 +23,7 @@ vim.call('plug#begin', plugin_loc)
 vim.call('plug#end')
 -- }}}
 -- [[ lsp setup ]]{{{
-local lspconfig = require("lspconfig")
-local util = require("lspconfig.util")
--- [[ rust ]]
-    require("langs/rust")
--- [[ keymaps ]]
-    -- [[ https://github.com/nvim-lua/kickstart.nvim/blob/master/init.lua ]]
-    vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
-    vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
-    vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
-    vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
+require("langs")
 -- }}}
 -- [[ ricing ]]{{{
 vim.cmd([[colorscheme iceberg]])
