@@ -55,6 +55,12 @@ local util = require("lspconfig.util")
 
     vim.g.rustfmt_autosave = 1
 -- }}}
+-- [[ Haskell ]]{{{
+    lspconfig.hls.setup({
+        on_attach = on_attach_common,
+        filetypes = { 'haskell', 'lhaskell', 'cabal' }
+    })
+-- }}}
 -- [[ Keymaps ]]{{{
     -- [[ https://github.com/nvim-lua/kickstart.nvim/blob/master/init.lua ]]
     vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
