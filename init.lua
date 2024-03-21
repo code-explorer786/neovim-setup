@@ -43,16 +43,16 @@ vim.o.completeopt = "menu,menuone,preview"
 -- }}}
 -- [[ keymaps ]]{{{
 
-vim.keymap.set('n', '<A-n>', ':nohl<CR>', { noremap = true, desc = "Clear regex search (:nohl)" })
-vim.keymap.set('n', '<A-r>', ':resize', { noremap = true, desc = "Force resize" })
+vim.keymap.set('n', ' n', ':nohl<CR>', { noremap = true, desc = "Clear regex search (:nohl)" })
+vim.keymap.set('n', ' r', ':resize', { noremap = true, desc = "Force resize" })
 
 -- [[ tab ]]{{{
-vim.keymap.set('n', '<A-;><A-[>', ':tabnew<CR>', { noremap = true; desc = "New tab" })
-vim.keymap.set('n', '<A-;><A-]>', ':tabclose<CR>', { noremap = true; desc = "Close tab" })
-vim.keymap.set('n', '<A-;><A-\\>', ':tabedit %<CR>', { noremap = true; desc = "New tab of this file/directory" })
+vim.keymap.set('n', '<Tab>n', ':tabnew<CR>', { noremap = true; desc = "New tab" })
+vim.keymap.set('n', '<Tab>d', ':tabclose<CR>', { noremap = true; desc = "Delete (close) tab" })
+vim.keymap.set('n', '<Tab>D', ':tabedit %<CR>', { noremap = true; desc = "New tab of this file/directory" })
 
-vim.keymap.set('n', '<A-\'><A-\'>', ':tabnext<CR>', { noremap = true; desc = "Next tab" })
-vim.keymap.set('n', '<A-;><A-;>', ':tabprev<CR>', { noremap = true; desc = "Previous tab" })
+vim.keymap.set('n', '<Tab>l', ':tabnext<CR>', { noremap = true; desc = "Next tab" })
+vim.keymap.set('n', '<Tab>h', ':tabprev<CR>', { noremap = true; desc = "Previous tab" })
 -- }}}
 -- [[ no arrows, use hjkl ]]{{{
 local no_arrows_desc = "use hjkl"
