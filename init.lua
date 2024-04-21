@@ -14,8 +14,6 @@ vim.call('plug#begin', plugin_loc)
         Plug 'neovim/nvim-lspconfig'
     -- stuff
         Plug 'cocopon/iceberg.vim'
-        Plug 'nvim-lualine/lualine.nvim'
-        Plug 'nvim-tree/nvim-web-devicons'
     -- utilities
         Plug 'mhinz/vim-grepper'
     -- rust
@@ -27,7 +25,6 @@ require("langs")
 -- }}}
 -- [[ ricing ]]{{{
 vim.cmd([[colorscheme iceberg]])
-require("lualine-config")
 -- }}}
 -- [[ settings ]]{{{
 vim.cmd([[ syntax enable ]])
