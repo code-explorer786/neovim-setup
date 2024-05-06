@@ -18,6 +18,8 @@ vim.call('plug#begin', plugin_loc)
         Plug 'mhinz/vim-grepper'
     -- rust
         Plug 'rust-lang/rust.vim'
+    -- agda
+        Plug 'derekelkins/agda-vim'
 vim.call('plug#end')
 -- }}}
 -- [[ lsp setup ]]{{{
