@@ -61,6 +61,11 @@ local util = require("lspconfig.util")
         filetypes = { 'haskell', 'lhaskell', 'cabal' }
     })
 -- }}}
+-- [[ Java ]]{{{
+    require'lspconfig'.jdtls.setup{
+        on_attach = on_attach_common
+    }
+-- }}}
 -- [[ Keymaps ]]{{{
     -- [[ https://github.com/nvim-lua/kickstart.nvim/blob/master/init.lua ]]
     vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
