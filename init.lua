@@ -20,6 +20,8 @@ vim.call('plug#begin', plugin_loc)
         Plug 'rust-lang/rust.vim'
     -- agda
         Plug 'derekelkins/agda-vim'
+    -- treesitter
+        Plug('nvim-treesitter/nvim-treesitter', { ['do'] = ':TSUpdate' })
 vim.call('plug#end')
 -- }}}
 -- [[ lsp setup ]]{{{
@@ -88,5 +90,34 @@ vim.api.nvim_create_user_command('ApplyModeline', function()
     vim.cmd([[setlocal ]] .. modeline)
     vim.notify([[Applied ]] .. modeline)
 end, { desc = "Set as modeline for window" })
+-- }}}
+-- [[ treesitter ]] {{{
+require'nvim-treesitter.configs'.setup {
+    ensure_installed = {},
+    sync_install = true,
+    auto_install = false,
+    ignore_install = {},
+    highlight = {
+        enable = true,
+        disable = {},
+        custom_captures = {},
+        additional_vim_regex_highlighting = true,
+    },
+    incremental_selection = {
+        enable = true,
+        keymaps = {
+            init_selection = "<Leader>a",
+            node_incremental = "<Leader>s",
+            node_decremental = "<Leader>d",
+            scope_incremental = "<Leader>f",
+        },
+    },
+    textobjects = {
+        enable = true,
+    },
+    indent = {
+        enable = true,
+    },
+}
 -- }}}
 -- vim: fdm=marker fdc=4
