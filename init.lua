@@ -16,6 +16,8 @@ vim.call('plug#begin', plugin_loc)
         Plug 'cocopon/iceberg.vim'
     -- utilities
         Plug 'mhinz/vim-grepper'
+        Plug 'junegunn/fzf'
+        Plug 'junegunn/fzf.vim'
     -- rust
         Plug 'rust-lang/rust.vim'
     -- agda
