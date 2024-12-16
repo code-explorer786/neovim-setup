@@ -81,6 +81,12 @@ vim.api.nvim_create_user_command("Config", [[
 :vs .
 :vertical resize 30
 ]] ,{ desc = 'Go to configuration setup' })
+vim.api.nvim_create_user_command("CleanUnnamed", function() 
+    vim.iter(vim.api.nvim_list_bufs())
+        :filter(vim.api.nvim_buf_is_loaded)
+        :filter(function(b) return vim.api.nvim_buf_get_name(b) == "" end)
+        :each(function(b) vim.api.nvim_buf_delete(b, { force = true }) end)
+end, { desc = 'Clean unnamed buffers'})
 -- }}}
 -- [[ modeline ]]{{{
 local modeline = "fdm=marker fdc=4"
