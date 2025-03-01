@@ -4,6 +4,7 @@ local plugin_loc = '~/.vimplugins' -- Plugin location
 
 -- [[ vimplug ]]{{{
 vim.call('plug#begin', plugin_loc)
+        Plug 'nvim-lua/plenary.nvim'
     -- directory tree
         Plug 'preservim/nerdtree'
     -- git
@@ -22,6 +23,8 @@ vim.call('plug#begin', plugin_loc)
         Plug 'rust-lang/rust.vim'
     -- agda
         Plug 'derekelkins/agda-vim'
+    -- lean
+        Plug 'Julian/lean.nvim'
     -- treesitter
         Plug('nvim-treesitter/nvim-treesitter', { ['do'] = ':TSUpdate' })
 vim.call('plug#end')
@@ -43,6 +46,8 @@ vim.o.shiftwidth = 4
 vim.o.expandtab = true
 
 vim.o.completeopt = "menu,menuone,preview"
+
+vim.opt.signcolumn = "yes:1"
 -- }}}
 -- [[ keymaps ]]{{{
 

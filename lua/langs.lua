@@ -22,6 +22,8 @@ local util = require("lspconfig.util")
 
         nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
         nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
+        -- nmap('<leader>a', vim.lsp.buf.code_action, '[C]ode [A]ction')
+        -- nmap('<C-a>', vim.lsp.buf.code_action, '[C]ode [A]ction')
 
         nmap('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
         -- nmap('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
@@ -47,6 +49,15 @@ local util = require("lspconfig.util")
             vim.lsp.buf.format()
         end, { desc = 'Format current buffer with LSP' })
     end
+
+    -- Update error messages even while you're typing in insert mode
+    vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+      vim.lsp.diagnostic.on_publish_diagnostics, {
+        underline = true,
+        virtual_text = { spacing = 4 },
+        update_in_insert = true,
+      }
+    )
 -- }}}
 -- [[ Rust ]]{{{
     lspconfig.rust_analyzer.setup({
@@ -66,6 +77,36 @@ local util = require("lspconfig.util")
         on_attach = on_attach_common
     }
 -- }}}
+    -- [[ Lean ]]{{{
+    -- Enable nvim-cmp, with 3 completion sources, including LSP
+    -- local cmp = require'cmp'
+    -- cmp.setup{
+    --     mapping = cmp.mapping.preset.insert({
+    --       ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+    --       ['<C-f>'] = cmp.mapping.scroll_docs(4),
+    --       ['<C-Space>'] = cmp.mapping.complete(),
+    --       ['<C-e>'] = cmp.mapping.abort(),
+    --       ['<CR>'] = cmp.mapping.confirm({ select = true }),
+    --     }),
+    --     sources = cmp.config.sources({
+    --       { name = 'nvim_lsp' },
+    --       { name = 'path' },
+    --       { name = 'buffer' },
+    --     })
+    -- }
+
+    -- You may want to reference the nvim-cmp documentation for further
+    -- configuration of completion: https://github.com/hrsh7th/nvim-cmp#recommended-configuration
+
+    -- Enable lean.nvim, and enable abbreviations and mappings
+    require('lean').setup{
+        lsp = { on_attach = function(a, bufnr)
+                    vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+                    on_attach_common(a, bufnr)
+                end },
+        mappings = true,
+    }
+    --}}}
 -- [[ Keymaps ]]{{{
     -- [[ https://github.com/nvim-lua/kickstart.nvim/blob/master/init.lua ]]
     vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
