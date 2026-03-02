@@ -25,6 +25,8 @@ vim.call('plug#begin', plugin_loc)
         Plug 'derekelkins/agda-vim'
     -- lean
         Plug 'Julian/lean.nvim'
+    -- LaTeX
+        Plug 'lervag/vimtex'
     -- treesitter
         Plug('nvim-treesitter/nvim-treesitter', { ['do'] = ':TSUpdate' })
 vim.call('plug#end')
@@ -105,7 +107,7 @@ vim.api.nvim_create_user_command('ApplyModeline', function()
 end, { desc = "Set as modeline for window" })
 -- }}}
 -- [[ treesitter ]] {{{
-require'nvim-treesitter.configs'.setup {
+require'nvim-treesitter'.setup {
     ensure_installed = {},
     sync_install = true,
     auto_install = false,

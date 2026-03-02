@@ -1,25 +1,27 @@
-local lspconfig = require("lspconfig")
+local lspconfig = vim.lsp.config;
+local configs = require("lspconfig.configs");
 local util = require("lspconfig.util")
+
+-- NOTE: Remember that lua is a real programming language, and as such it is possible
+-- to define small helper and utility functions so you don't have to repeat yourself
+-- many times.
+--
+-- In this case, we create a function that lets us more easily define mappings specific
+-- for LSP related items. It sets the mode, buffer and description for us each time.
+local nmap = function(keys, func, desc)
+    if desc then
+        desc = 'LSP: ' .. desc
+    end
+
+    vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
+end
+
 -- [[ Common ]]{{{
     -- [[ https://github.com/nvim-lua/kickstart.nvim/blob/master/init.lua ]]
 
     -- [[ Configure LSP ]]
     --  This function gets run when an LSP connects to a particular buffer.
     local on_attach_common = function(_, bufnr)
-        -- NOTE: Remember that lua is a real programming language, and as such it is possible
-        -- to define small helper and utility functions so you don't have to repeat yourself
-        -- many times.
-        --
-        -- In this case, we create a function that lets us more easily define mappings specific
-        -- for LSP related items. It sets the mode, buffer and description for us each time.
-        local nmap = function(keys, func, desc)
-            if desc then
-                desc = 'LSP: ' .. desc
-            end
-
-            vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
-        end
-
         nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
         nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
         -- nmap('<leader>a', vim.lsp.buf.code_action, '[C]ode [A]ction')
@@ -58,24 +60,20 @@ local util = require("lspconfig.util")
         update_in_insert = true,
       }
     )
--- }}}
--- [[ Rust ]]{{{
-    lspconfig.rust_analyzer.setup({
+
+    vim.lsp.config('*', {
         on_attach = on_attach_common
     })
-
+-- }}}
+-- [[ Rust ]]{{{
     vim.g.rustfmt_autosave = 1
 -- }}}
 -- [[ Haskell ]]{{{
-    lspconfig.hls.setup({
-        on_attach = on_attach_common,
+    lspconfig('hls',{
         filetypes = { 'haskell', 'lhaskell', 'cabal' }
     })
 -- }}}
 -- [[ Java ]]{{{
-    require'lspconfig'.jdtls.setup{
-        on_attach = on_attach_common
-    }
 -- }}}
     -- [[ Lean ]]{{{
     -- Enable nvim-cmp, with 3 completion sources, including LSP
@@ -99,14 +97,68 @@ local util = require("lspconfig.util")
     -- configuration of completion: https://github.com/hrsh7th/nvim-cmp#recommended-configuration
 
     -- Enable lean.nvim, and enable abbreviations and mappings
-    require('lean').setup{
+    lspconfig('leanls',{
         lsp = { on_attach = function(a, bufnr)
                     vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
                     on_attach_common(a, bufnr)
                 end },
         mappings = true,
-    }
+    })
     --}}}
+-- [[ C/C++ ]]{{{
+    lspconfig('ccls',{
+        filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "arduino" },
+        init_options = {
+            compilationDatabaseDirectory = "build",
+            index = {
+                threads = 0,
+            },
+            clang = {
+                excludeArgs = { "-frounding-math"},
+            },
+        }
+    })
+--}}}
+-- [[ Asymptote ]]{{{
+    vim.filetype.add({
+        extension = {
+            asy = 'asymptote',
+        },
+    })
+
+    if not configs.asy then
+        configs.asy = {
+            default_config = {
+                cmd = {'asy', '-lsp'},
+                filetypes = {'asymptote'},
+                root_dir = function(fname)
+                    return lspconfig.util.find_git_ancestor(fname)
+                end,
+                settings = {},
+            },
+        }
+    end
+-- }}}
+-- [[ LaTeX ]]{{{
+    vim.g.vimtex_view_general_viewer = 'okular'
+    vim.g.vimtex_view_general_options = '--unique file:@pdf#src:@line@tex'
+
+    vim.g.vimtex_compiler_method = 'latexmk'
+    vim.api.nvim_create_autocmd({'BufReadPre'}, {
+      pattern = {'*.tex'},
+      callback = function(ev)
+          local winid = vim.api.nvim_get_current_win()
+          vim.wo[winid][0].foldmethod='expr'
+          vim.wo[winid][0].foldexpr='vimtex#fold#level(v:lnum)'
+          vim.wo[winid][0].foldtext='vimtex#fold#text()'
+      end
+    })
+
+    vim.g.vimtex_fold_types = {
+        preamble = {enabled = 1},
+        envs = {blacklist = {'align', 'align*', 'equation', 'equation*'}},
+    }
+--}}}
 -- [[ Keymaps ]]{{{
     -- [[ https://github.com/nvim-lua/kickstart.nvim/blob/master/init.lua ]]
     vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
