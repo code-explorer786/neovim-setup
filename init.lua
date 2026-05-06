@@ -2,6 +2,13 @@ local pid = vim.fn.getpid() -- why did I do this again? ☺
 local Plug = vim.fn['plug#'] -- https://dev.to/vonheikemen/neovim-using-vim-plug-in-lua-3oom
 local plugin_loc = '~/.vimplugins' -- Plugin location
 
+-- [[ specific paths / directories / programs ]]{{{
+    -- make sure to append '/' because i dont want to handle edgecases
+    local cfgdir = vim.fn.stdpath('config') .. '/';
+    local competitive = '$(HOME)/Projects/competitive/';
+
+    local dragdrop = 'drag-drop'; -- https://github.com/mwh/dragon renamed to drag-drop
+-- }}}
 -- [[ vimplug ]]{{{
 vim.call('plug#begin', plugin_loc)
         Plug 'nvim-lua/plenary.nvim'
@@ -29,13 +36,24 @@ vim.call('plug#begin', plugin_loc)
         Plug 'lervag/vimtex'
     -- treesitter
         Plug('nvim-treesitter/nvim-treesitter', { ['do'] = ':TSUpdate' })
+    -- competitive
+        Plug 'MunifTanjim/nui.nvim'
+        Plug 'xeluxee/competitest.nvim'
 vim.call('plug#end')
 -- }}}
 -- [[ lsp setup ]]{{{
 require("langs")
 -- }}}
 -- [[ ricing ]]{{{
-vim.cmd([[colorscheme iceberg]])
+vim.cmd([[colorscheme habamax]])
+-- }}}
+-- [[ competitive ]]{{{
+    require('competitest').setup{
+        -- VERY user-specific. TODO: For anyone else installing this, make this easier to change
+        received_problems_path = competitive .. "$(JUDGE)/$(CONTEST)/$(PROBLEM).$(FEXT)",
+        evaluate_template_modifiers = true,
+        template_file = cfgdir .. 'comptemplates/template.$(FEXT)',
+    }
 -- }}}
 -- [[ settings ]]{{{
 vim.cmd([[ syntax enable ]])
@@ -96,6 +114,15 @@ vim.api.nvim_create_user_command("CleanUnnamed", function()
         :filter(function(b) return vim.api.nvim_buf_get_name(b) == "" end)
         :each(function(b) vim.api.nvim_buf_delete(b, { force = true }) end)
 end, { desc = 'Clean unnamed buffers'})
+
+vim.api.nvim_create_user_command("Drop", [[
+:w
+:!]] .. dragdrop .. [[ '%:p'
+]] ,{ desc = 'Save and drag-drop this file' })
+
+vim.api.nvim_create_user_command("Dropfol", [[
+:!drag-drop '%:p'
+]] ,{ desc = 'Save and drag-drop files from this folder' })
 -- }}}
 -- [[ modeline ]]{{{
 local modeline = "fdm=marker fdc=4"

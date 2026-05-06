@@ -62,18 +62,21 @@ end
     )
 
     vim.lsp.config('*', {
-        on_attach = on_attach_common
+        lsp = { on_attach = on_attach_common }
     })
 -- }}}
 -- [[ Rust ]]{{{
     vim.g.rustfmt_autosave = 1
+    vim.lsp.enable('rust_analyzer');
 -- }}}
 -- [[ Haskell ]]{{{
     lspconfig('hls',{
         filetypes = { 'haskell', 'lhaskell', 'cabal' }
     })
+    vim.lsp.enable('hls');
 -- }}}
 -- [[ Java ]]{{{
+    vim.lsp.enable('jdtls');
 -- }}}
     -- [[ Lean ]]{{{
     -- Enable nvim-cmp, with 3 completion sources, including LSP
@@ -104,7 +107,8 @@ end
                 end },
         mappings = true,
     })
-    --}}}
+    vim.lsp.enable('leanls');
+-- }}}
 -- [[ C/C++ ]]{{{
     lspconfig('ccls',{
         filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "arduino" },
@@ -118,6 +122,7 @@ end
             },
         }
     })
+    vim.lsp.enable('ccls');
 --}}}
 -- [[ Asymptote ]]{{{
     vim.filetype.add({
